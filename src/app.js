@@ -30,6 +30,14 @@ app.post('/book/edit', (req, res) => {
 	res.status(200).json({ succcess: true, data: newBook });
 });
 
+app.delete('/book', (req, res) => {
+	const { ID } = req.body;
+
+	Book.delete(ID);
+
+	res.status(200).json({ succcess: true, msg: `Berhasil menghapus buku dengan ID ${ID}` });
+});
+
 app.listen(5000, () => {
 	console.log('server is running on port 5000');
 });

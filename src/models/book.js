@@ -55,6 +55,59 @@ class Book {
 			}
 		});
 	}
+
+	static delete(ID) {
+		// Baca file books
+		fs.readFile(bookPath, 'utf-8', (err, data) => {
+			if (!err) {
+				// Parse ke array of book
+				const books = JSON.parse(data);
+
+				// Cari buku yang  mau dihapus
+				const book = books.find((book) => book.id === ID);
+
+				// Kalau ada bukunya
+				if (book) {
+					// Filter buku keluar dari array baru
+					const newBooks = books.filter((book) => book.id !== ID);
+
+					// Tulis kembali newBooks
+					fs.writeFile(bookPath, JSON.stringify(newBooks), (err) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				}
+			}
+		});
+	}
+
+	static getAllBooks(cb) {
+		fs.readFile(bookPath, 'utf-8', (err, data) => {
+			if (err) {
+				return cb([]);
+			}
+
+			return cb(JSON.parse(data));
+		});
+	}
+
+	static getBookByID(ID, cb) {
+		// Baca file books
+		fs.readFile(bookPath, 'utf-8', (err, data) => {
+			if (!err) {
+				// Parse ke array of book
+				const books = JSON.parse(data);
+
+				// Cari buku yang  mau dihapus
+				const book = books.find((book) => book.id === ID);
+
+				return cb(book);
+			} else {
+				return cb(null);
+			}
+		});
+	}
 }
 
 module.exports = { Book };
